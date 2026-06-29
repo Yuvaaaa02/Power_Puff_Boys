@@ -40,7 +40,12 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
       return;
     }
 
-    fetchData(currentMonth);
+    const savedMonth = localStorage.getItem("roomsplit-selected-month");
+    if (savedMonth && savedMonth !== currentMonth) {
+      setCurrentMonth(savedMonth);
+    } else {
+      fetchData(currentMonth);
+    }
   }, [name, currentMonth, router]);
 
   const fetchData = async (month: string) => {
@@ -141,7 +146,10 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
           <select 
             value={currentMonth}
-            onChange={(e) => setCurrentMonth(e.target.value)}
+            onChange={(e) => {
+              setCurrentMonth(e.target.value);
+              localStorage.setItem("roomsplit-selected-month", e.target.value);
+            }}
             className="bg-[#111] border border-[#222] text-white rounded-lg px-4 py-2.5 sm:py-2 focus:outline-none focus:border-[#C0FF34] w-full sm:w-auto appearance-none"
           >
             {availableMonths.map(m => (
