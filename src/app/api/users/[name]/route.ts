@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { readUsers, writeUsers } from "@/lib/dataUtils";
+import { NextResponse } from 'next/server'
+import { getUserByName, updateUserPassword, updateUserUpi } from '@/lib/users'
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ name: string }> }) {
   try {
@@ -10,15 +10,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ na
       return NextResponse.json({ error: "Password is required" }, { status: 400 });
     }
     
-    const users = await readUsers();
-    
-    if (!users[name]) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-    
-    users[name].password = body.password;
-    await writeUsers(users);
-    
+    await updateUserPassword(name, body.password);
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
@@ -30,17 +22,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ name
     const { name } = await params;
     const body = await request.json();
     
-    const users = await readUsers();
-    
-    if (!users[name]) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-    
     if (body.upiId !== undefined) {
-      users[name].upiId = body.upiId;
+      await updateUserUpi(name, body.upiId);
     }
-    
-    await writeUsers(users);
     
     return NextResponse.json({ success: true });
   } catch (error) {

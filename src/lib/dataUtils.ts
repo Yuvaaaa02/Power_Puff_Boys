@@ -1,74 +1,91 @@
-import { mkdir, readFile, writeFile, copyFile } from "fs/promises";
-import path from "path";
-import { UsersData, ExpensesData } from "./types";
-import { existsSync } from "fs";
-import crypto from "crypto";
+import { supabase } from './supabase'
+import { Expense, Section, ExpenseItem } from './types'
 
-function resolveDataFilePath(filename: string) {
-  if (process.env.VERCEL) {
-    return path.join("/tmp", filename);
-  }
-  return path.join(process.cwd(), "data", filename);
-}
-
-async function ensureDataFile(filename: string, defaultData: string) {
-  const targetFile = resolveDataFilePath(filename);
+// Map Supabase DB row to App Expense type
+function rowToExpense(row: any): Expense {
+  const section = row.category as Section;
+  let items: ExpenseItem[] | undefined = undefined;
+  let description: string | undefined = undefined;
   
-  if (process.env.VERCEL) {
-    // In Vercel, we need to copy from process.cwd()/data to /tmp if it doesn't exist
-    if (!existsSync(targetFile)) {
-      const sourceFile = path.join(process.cwd(), "data", filename);
-      if (existsSync(sourceFile)) {
-        await copyFile(sourceFile, targetFile);
-      } else {
-        await writeFile(targetFile, defaultData, "utf8");
-      }
+  if (section === 'morning') {
+    try {
+      items = JSON.parse(row.description);
+    } catch {
+      items = [];
     }
   } else {
-    // Locally, ensure the directory and file exist
-    const dataDir = path.dirname(targetFile);
-    await mkdir(dataDir, { recursive: true });
-    if (!existsSync(targetFile)) {
-      await writeFile(targetFile, defaultData, "utf8");
-    }
-  }
-  return targetFile;
-}
-
-export async function readUsers(): Promise<UsersData> {
-  const file = await ensureDataFile("users.json", "{}");
-  const raw = await readFile(file, "utf8");
-  return JSON.parse(raw);
-}
-
-export async function writeUsers(data: UsersData): Promise<void> {
-  const file = await ensureDataFile("users.json", "{}");
-  await writeFile(file, JSON.stringify(data, null, 2), "utf8");
-}
-
-export async function readExpenses(): Promise<ExpensesData> {
-  const file = await ensureDataFile("expenses.json", "[]");
-  const raw = await readFile(file, "utf8");
-  const data = JSON.parse(raw) as ExpensesData;
-  
-  let modified = false;
-  const upgraded = data.map(exp => {
-    if (!exp.id) {
-      exp.id = crypto.randomUUID();
-      modified = true;
-    }
-    return exp;
-  });
-  
-  if (modified) {
-    // Avoid circular import issues by writing inline
-    await writeFile(file, JSON.stringify(upgraded, null, 2), "utf8");
+    description = row.description;
   }
   
-  return upgraded;
+  return {
+    id: row.id,
+    date: row.date,
+    section,
+    paidBy: row.paid_by,
+    items,
+    totalAmount: Number(row.amount),
+    splitAmong: row.split_among,
+    splitAmount: Number(row.amount) / row.split_among.length,
+    description
+  };
 }
 
-export async function writeExpenses(data: ExpensesData): Promise<void> {
-  const file = await ensureDataFile("expenses.json", "[]");
-  await writeFile(file, JSON.stringify(data, null, 2), "utf8");
+export async function getExpenses(month?: string): Promise<Expense[]> {
+  let query = supabase.from('expenses').select('*').order('date', { ascending: false })
+  if (month) query = query.eq('month', month)
+  const { data, error } = await query
+  if (error) throw error
+  return (data || []).map(rowToExpense)
+}
+
+export async function addExpense(expense: Omit<Expense, 'id'>): Promise<Expense> {
+  const descriptionValue = expense.section === 'morning' && expense.items 
+    ? JSON.stringify(expense.items) 
+    : expense.description || '';
+
+  const { data, error } = await supabase
+    .from('expenses')
+    .insert({
+      description: descriptionValue,
+      amount: expense.totalAmount,
+      paid_by: expense.paidBy,
+      split_among: expense.splitAmong,
+      category: expense.section,
+      date: expense.date,
+      month: expense.date.substring(0, 7)
+    })
+    .select()
+    .single()
+  if (error) throw error
+  return rowToExpense(data)
+}
+
+export async function deleteExpense(id: string): Promise<void> {
+  const { error } = await supabase.from('expenses').delete().eq('id', id)
+  if (error) throw error
+}
+
+export async function updateExpense(id: string, updates: Partial<Expense>): Promise<void> {
+  const dbUpdates: any = {}
+  
+  if (updates.section !== undefined) {
+    dbUpdates.category = updates.section;
+  }
+  
+  if (updates.items !== undefined && (updates.section === 'morning' || updates.section === undefined)) {
+    dbUpdates.description = JSON.stringify(updates.items);
+  } else if (updates.description !== undefined) {
+    dbUpdates.description = updates.description;
+  }
+  
+  if (updates.totalAmount !== undefined) dbUpdates.amount = updates.totalAmount;
+  if (updates.paidBy !== undefined) dbUpdates.paid_by = updates.paidBy;
+  if (updates.splitAmong !== undefined) dbUpdates.split_among = updates.splitAmong;
+  if (updates.date !== undefined) {
+    dbUpdates.date = updates.date;
+    dbUpdates.month = updates.date.substring(0, 7);
+  }
+
+  const { error } = await supabase.from('expenses').update(dbUpdates).eq('id', id)
+  if (error) throw error
 }

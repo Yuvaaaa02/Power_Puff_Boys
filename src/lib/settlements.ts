@@ -1,60 +1,54 @@
-import { mkdir, readFile, writeFile, copyFile } from "fs/promises";
-import path from "path";
-import { SettlementsData } from "./types";
-import { existsSync } from "fs";
-import crypto from "crypto";
+import { supabase } from './supabase'
+import { Settlement } from './types'
 
-function resolveDataFilePath(filename: string) {
-  if (process.env.VERCEL) {
-    return path.join("/tmp", filename);
+function rowToSettlement(row: any): Settlement {
+  return {
+    id: row.id,
+    from: row.from,
+    to: row.to,
+    amount: Number(row.amount),
+    date: row.date,
+    month: row.month,
+    status: row.status as 'paid' | 'pending',
+    note: row.note || '',
+    expenseId: row.expense_id || undefined,
   }
-  return path.join(process.cwd(), "data", filename);
 }
 
-async function ensureDataFile(filename: string, defaultData: string) {
-  const targetFile = resolveDataFilePath(filename);
-  
-  if (process.env.VERCEL) {
-    if (!existsSync(targetFile)) {
-      const sourceFile = path.join(process.cwd(), "data", filename);
-      if (existsSync(sourceFile)) {
-        await copyFile(sourceFile, targetFile);
-      } else {
-        await writeFile(targetFile, defaultData, "utf8");
-      }
-    }
-  } else {
-    const dataDir = path.dirname(targetFile);
-    await mkdir(dataDir, { recursive: true });
-    if (!existsSync(targetFile)) {
-      await writeFile(targetFile, defaultData, "utf8");
-    }
-  }
-  return targetFile;
+export async function getSettlements(month?: string): Promise<Settlement[]> {
+  let query = supabase.from('settlements').select('*').order('date', { ascending: false })
+  if (month) query = query.eq('month', month)
+  const { data, error } = await query
+  if (error) throw error
+  return (data || []).map(rowToSettlement)
 }
 
-export async function readSettlements(): Promise<SettlementsData> {
-  const file = await ensureDataFile("settlements.json", "[]");
-  const raw = await readFile(file, "utf8");
-  const data = JSON.parse(raw) as SettlementsData;
-  
-  let modified = false;
-  const upgraded = data.map(s => {
-    if (!s.id) {
-      s.id = crypto.randomUUID();
-      modified = true;
-    }
-    return s;
-  });
-  
-  if (modified) {
-    await writeFile(file, JSON.stringify(upgraded, null, 2), "utf8");
-  }
-  
-  return upgraded;
+export async function addSettlement(
+  settlement: Omit<Settlement, 'id' | 'date' | 'month'>
+): Promise<Settlement> {
+  const today = new Date()
+  const date = today.toISOString().split('T')[0]
+  const month = date.slice(0, 7)
+
+  const { data, error } = await supabase
+    .from('settlements')
+    .insert({
+      from: settlement.from,
+      to: settlement.to,
+      amount: settlement.amount,
+      date,
+      month,
+      status: settlement.status || 'paid',
+      note: settlement.note || '',
+      expense_id: settlement.expenseId || null,
+    })
+    .select()
+    .single()
+  if (error) throw error
+  return rowToSettlement(data)
 }
 
-export async function writeSettlements(data: SettlementsData): Promise<void> {
-  const file = await ensureDataFile("settlements.json", "[]");
-  await writeFile(file, JSON.stringify(data, null, 2), "utf8");
+export async function deleteSettlement(id: string): Promise<void> {
+  const { error } = await supabase.from('settlements').delete().eq('id', id)
+  if (error) throw error
 }

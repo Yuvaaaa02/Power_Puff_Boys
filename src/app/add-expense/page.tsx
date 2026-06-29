@@ -7,6 +7,7 @@ import { Section, ExpenseItem } from "@/lib/types";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { Plus, Trash2, CheckCircle2 } from "lucide-react";
+import { apiUrl } from "@/lib/apiBase";
 
 const MEMBERS = ["Yuvaraj", "Anand", "Varshith", "Mahendra"];
 
@@ -100,7 +101,7 @@ export default function AddExpensePage() {
         ...(section === "morning" ? { items } : { description: description.trim() })
       };
 
-      const res = await fetch("/api/expenses", {
+      const res = await fetch(apiUrl("/api/expenses"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

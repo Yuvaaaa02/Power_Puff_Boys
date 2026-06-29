@@ -1,13 +1,11 @@
-import { NextResponse } from "next/server";
-import { readUsers } from "@/lib/dataUtils";
-import { UsersData } from "@/lib/types";
+import { NextResponse } from 'next/server'
+import { readUsers } from '@/lib/users'
 
-export const dynamic = 'force-dynamic';
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const users = await readUsers();
-    return NextResponse.json(users);
+    const { searchParams } = new URL(request.url);
+    const users = await readUsers()
+    return NextResponse.json(users)
   } catch (error) {
     return NextResponse.json({ error: "Failed to read users" }, { status: 500 });
   }

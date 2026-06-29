@@ -6,6 +6,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { CSVDownloadButton } from "@/components/CSVDownloadButton";
 import { Expense, Settlement } from "@/lib/types";
 import { toast } from "sonner";
+import { apiUrl } from "@/lib/apiBase";
 import { format, parseISO } from "date-fns";
 import { Pencil, Trash2, Eye, EyeOff, Save, X } from "lucide-react";
 
@@ -54,9 +55,9 @@ export default function AdminPage() {
     try {
       const ts = Date.now();
       const [expRes, setRes, userRes] = await Promise.all([
-        fetch(`/api/expenses?t=${ts}`),
-        fetch(`/api/settlements?t=${ts}`),
-        fetch(`/api/users?t=${ts}`)
+        fetch(apiUrl(`/api/expenses?t=${ts}`)),
+        fetch(apiUrl(`/api/settlements?t=${ts}`)),
+        fetch(apiUrl(`/api/users?t=${ts}`))
       ]);
       const expData = await expRes.json();
       const setData = await setRes.json();
@@ -108,7 +109,7 @@ export default function AdminPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this expense?")) return;
     try {
-      const res = await fetch(`/api/expenses/${id}`, { method: "DELETE" });
+      const res = await fetch(apiUrl(`/api/expenses/${id}`), { method: "DELETE" });
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.details || errorData.error || "Failed to delete");
@@ -126,7 +127,7 @@ export default function AdminPage() {
     if (!newPass || newPass.trim() === "") return toast.error("Password cannot be empty");
     
     try {
-      const res = await fetch(`/api/users/${name}`, {
+      const res = await fetch(apiUrl(`/api/users/${name}`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: newPass })
@@ -152,7 +153,7 @@ export default function AdminPage() {
     if (!newUpi || !newUpi.includes("@")) return toast.error("Must be a valid UPI ID (e.g. name@bank)");
     
     try {
-      const res = await fetch(`/api/users/${name}/upi`, {
+      const res = await fetch(apiUrl(`/api/users/${name}/upi`), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ upiId: newUpi })

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Copy, Smartphone, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { apiUrl } from "@/lib/apiBase";
 
 interface PayButtonProps {
   upiId?: string;
@@ -82,7 +83,7 @@ export function PayButton({ upiId, receiverName, amount, note, fromName, expense
         expenseId
       };
 
-      const res = await fetch("/api/settlements", {
+      const res = await fetch(apiUrl("/api/settlements"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

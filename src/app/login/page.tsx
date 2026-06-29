@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { apiUrl } from "@/lib/apiBase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/users");
+      const res = await fetch(apiUrl("/api/users"));
       const users = await res.json();
 
       if (users[username] && users[username].password === password) {
