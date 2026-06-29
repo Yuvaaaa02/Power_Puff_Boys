@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile, copyFile } from "fs/promises";
 import path from "path";
 import { UsersData, ExpensesData } from "./types";
 import { existsSync } from "fs";
+import crypto from "crypto";
 
 function resolveDataFilePath(filename: string) {
   if (process.env.VERCEL) {
@@ -48,7 +49,23 @@ export async function writeUsers(data: UsersData): Promise<void> {
 export async function readExpenses(): Promise<ExpensesData> {
   const file = await ensureDataFile("expenses.json", "[]");
   const raw = await readFile(file, "utf8");
-  return JSON.parse(raw);
+  const data = JSON.parse(raw) as ExpensesData;
+  
+  let modified = false;
+  const upgraded = data.map(exp => {
+    if (!exp.id) {
+      exp.id = crypto.randomUUID();
+      modified = true;
+    }
+    return exp;
+  });
+  
+  if (modified) {
+    // Avoid circular import issues by writing inline
+    await writeFile(file, JSON.stringify(upgraded, null, 2), "utf8");
+  }
+  
+  return upgraded;
 }
 
 export async function writeExpenses(data: ExpensesData): Promise<void> {

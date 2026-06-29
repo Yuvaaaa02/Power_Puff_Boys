@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { readSettlements, writeSettlements } from "@/lib/settlements";
 import { Settlement } from "@/lib/types";
 import { format } from "date-fns";
+import crypto from "crypto";
 
 export const dynamic = 'force-dynamic';
 
@@ -19,7 +20,13 @@ export async function GET(request: Request) {
     // Return newest first
     settlements.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    return NextResponse.json(settlements);
+    return NextResponse.json(settlements, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    });
   } catch (error) {
     return NextResponse.json({ error: "Failed to read settlements" }, { status: 500 });
   }

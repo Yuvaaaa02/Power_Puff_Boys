@@ -46,10 +46,11 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
   const fetchData = async (month: string) => {
     try {
       setLoading(true);
+      const ts = Date.now();
       const [expRes, setRes, usrRes] = await Promise.all([
-        fetch(`/api/expenses?month=${month}`),
-        fetch(`/api/settlements?month=${month}`),
-        fetch("/api/users")
+        fetch(`/api/expenses?month=${month}&t=${ts}`),
+        fetch(`/api/settlements?month=${month}&t=${ts}`),
+        fetch(`/api/users?t=${ts}`)
       ]);
       const expData = await expRes.json();
       const setData = await setRes.json();
@@ -60,9 +61,10 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
       setUsers(usrData);
 
       // We should also fetch available months based on expenses and settlements
-      const allExpRes = await fetch("/api/expenses");
+      const ts2 = Date.now();
+      const allExpRes = await fetch(`/api/expenses?t=${ts2}`);
       const allExpData: Expense[] = await allExpRes.json();
-      const allSetRes = await fetch("/api/settlements");
+      const allSetRes = await fetch(`/api/settlements?t=${ts2}`);
       const allSetData: Settlement[] = await allSetRes.json();
       
       const allMonths = new Set([
@@ -88,17 +90,25 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
   const handleDeleteExpense = async (id: string) => {
     if (!confirm("Are you sure you want to delete this expense?")) return;
     
+    // Optimistic UI update for instant feedback
+    setExpenses(prev => prev.filter(e => e.id !== id));
+    
     try {
       const res = await fetch(`/api/expenses/${id}`, {
         method: "DELETE",
       });
       
-      if (!res.ok) throw new Error("Failed to delete");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.details || errorData.error || "Failed to delete");
+      }
       
       toast.success("Expense deleted successfully");
       fetchData(currentMonth);
     } catch (error) {
-      toast.error("Failed to delete expense");
+      toast.error(error instanceof Error ? error.message : "Failed to delete expense");
+      // Re-fetch to restore state if it failed
+      fetchData(currentMonth);
     }
   };
 

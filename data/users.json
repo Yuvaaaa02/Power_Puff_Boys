@@ -1,7 +1,30 @@
 {
-  "admin": { "password": "admin123", "role": "admin" },
-  "Yuvaraj": { "password": "yuva123", "role": "member", "approved": true, "upiId": "yuvaraj@ybl" },
-  "Anand": { "password": "anand123", "role": "member", "approved": true, "upiId": "anand@ybl" },
-  "Varshith": { "password": "varshith123", "role": "member", "approved": true, "upiId": "varshith@ybl" },
-  "Mahendra": { "password": "mahendra123", "role": "member", "approved": true, "upiId": "mahendra@ybl" }
+  "admin": {
+    "password": "admin123",
+    "role": "admin"
+  },
+  "Yuvaraj": {
+    "password": "yuva123",
+    "role": "member",
+    "approved": true,
+    "upiId": "8374840055@ybl"
+  },
+  "Anand": {
+    "password": "anand123",
+    "role": "member",
+    "approved": true,
+    "upiId": "anand@ybl"
+  },
+  "Varshith": {
+    "password": "varshith123",
+    "role": "member",
+    "approved": true,
+    "upiId": "6305483627@axl"
+  },
+  "Mahendra": {
+    "password": "mahendra123",
+    "role": "member",
+    "approved": true,
+    "upiId": "mahendra@ybl"
+  }
 }

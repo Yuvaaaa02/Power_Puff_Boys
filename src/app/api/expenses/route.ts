@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { readExpenses, writeExpenses } from "@/lib/dataUtils";
 import { Expense } from "@/lib/types";
+import crypto from "crypto";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,13 @@ export async function GET(request: Request) {
     // Return newest first by sorting dates descending
     expenses.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
-    return NextResponse.json(expenses);
+    return NextResponse.json(expenses, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    });
   } catch (error) {
     return NextResponse.json({ error: "Failed to read expenses" }, { status: 500 });
   }

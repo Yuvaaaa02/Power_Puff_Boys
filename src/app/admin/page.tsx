@@ -52,10 +52,11 @@ export default function AdminPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
+      const ts = Date.now();
       const [expRes, setRes, userRes] = await Promise.all([
-        fetch("/api/expenses"),
-        fetch("/api/settlements"),
-        fetch("/api/users")
+        fetch(`/api/expenses?t=${ts}`),
+        fetch(`/api/settlements?t=${ts}`),
+        fetch(`/api/users?t=${ts}`)
       ]);
       const expData = await expRes.json();
       const setData = await setRes.json();
@@ -108,11 +109,15 @@ export default function AdminPage() {
     if (!confirm("Are you sure you want to delete this expense?")) return;
     try {
       const res = await fetch(`/api/expenses/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.details || errorData.error || "Failed to delete");
+      }
       setExpenses(expenses.filter(e => e.id !== id));
       toast.success("Expense deleted");
     } catch (e) {
-      toast.error("Failed to delete");
+      toast.error(e instanceof Error ? e.message : "Failed to delete");
+      fetchData();
     }
   };
 
