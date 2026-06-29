@@ -34,6 +34,7 @@ export function Sidebar() {
     : [
         { href: `/dashboard/${user.name}`, label: "Dashboard", icon: LayoutDashboard },
         { href: "/add-expense", label: "Add Expense", icon: PlusCircle },
+        { href: `/dashboard/${user.name}/settings`, label: "Settings", icon: Settings },
       ];
 
   const content = (

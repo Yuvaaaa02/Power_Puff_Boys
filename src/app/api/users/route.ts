@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { readUsers } from "@/lib/dataUtils";
+import { UsersData } from "@/lib/types";
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {

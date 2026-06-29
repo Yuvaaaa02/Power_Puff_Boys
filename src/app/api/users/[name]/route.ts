@@ -24,3 +24,26 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ na
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
   }
 }
+
+export async function PUT(request: Request, { params }: { params: Promise<{ name: string }> }) {
+  try {
+    const { name } = await params;
+    const body = await request.json();
+    
+    const users = await readUsers();
+    
+    if (!users[name]) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+    
+    if (body.upiId !== undefined) {
+      users[name].upiId = body.upiId;
+    }
+    
+    await writeUsers(users);
+    
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
+}

@@ -8,9 +8,10 @@ import { Expense, Settlement, UsersData } from "@/lib/types";
 import { SettlementSummary } from "@/components/SettlementSummary";
 import { PayButton } from "@/components/PayButton";
 import { SettlementBadge } from "@/components/SettlementBadge";
-import { ArrowRight, IndianRupee, PieChart, Receipt, Wallet, PlusCircle } from "lucide-react";
+import { ArrowRight, IndianRupee, PieChart, Receipt, Wallet, PlusCircle, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
+import { toast } from "sonner";
 
 export default function DashboardPage({ params }: { params: Promise<{ name: string }> }) {
   const router = useRouter();
@@ -82,6 +83,23 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
 
   const handleRefreshSettlements = () => {
     fetchData(currentMonth);
+  };
+
+  const handleDeleteExpense = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this expense?")) return;
+    
+    try {
+      const res = await fetch(`/api/expenses/${id}`, {
+        method: "DELETE",
+      });
+      
+      if (!res.ok) throw new Error("Failed to delete");
+      
+      toast.success("Expense deleted successfully");
+      fetchData(currentMonth);
+    } catch (error) {
+      toast.error("Failed to delete expense");
+    }
   };
 
   // Calculations for current month summary cards
@@ -304,7 +322,16 @@ export default function DashboardPage({ params }: { params: Promise<{ name: stri
                           />
                         )}
                         {owes && isSettled && <SettlementBadge />}
-                        {!owes && <span className="text-[#555]">-</span>}
+                        {!owes && isPayer && (
+                          <button 
+                            onClick={() => handleDeleteExpense(exp.id)}
+                            className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                            title="Delete Expense"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        )}
+                        {!owes && !isPayer && <span className="text-[#555]">-</span>}
                       </td>
                     </tr>
                   )
