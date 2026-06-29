@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RoomOS
 
-## Getting Started
+RoomOS is a responsive roommate maintenance and expense-management application. It includes item-level expense splitting, settlements, reports, member administration, CSV import/export, JSON backups, theme settings, and role-protected authentication.
 
-First, run the development server:
+## Run locally
+
+Requirements: Node.js 20 or newer and npm.
 
 ```bash
+npm install
+copy .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Seeded accounts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Role | Username | Password |
+| --- | --- | --- |
+| Admin | `yuvaraj` | `yuvaraj@123` |
+| Member | `anand` | `anand@123` |
+| Member | `varshith` | `varshith@123` |
+| Member | `mahendra` | `mahendra@123` |
 
-## Learn More
+## Verification
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data and deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Local data is stored in `data/roomos-data.json`, which is created automatically from seed data on first use. Backup and CSV export are available from the application.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set a strong, unique `SESSION_SECRET` in every deployed environment. The current JSON adapter writes to `/tmp` on Vercel, where data is ephemeral; connect the isolated storage layer to a persistent database before using a serverless deployment for real household records.

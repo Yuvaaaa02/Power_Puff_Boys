@@ -1,0 +1,7 @@
+{
+  "admin": { "password": "admin123", "role": "admin" },
+  "Yuvaraj": { "password": "yuva123", "role": "member", "approved": true, "upiId": "yuvaraj@ybl" },
+  "Anand": { "password": "anand123", "role": "member", "approved": true, "upiId": "anand@ybl" },
+  "Varshith": { "password": "varshith123", "role": "member", "approved": true, "upiId": "varshith@ybl" },
+  "Mahendra": { "password": "mahendra123", "role": "member", "approved": true, "upiId": "mahendra@ybl" }
+}

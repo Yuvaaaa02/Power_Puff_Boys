@@ -1,0 +1,376 @@
+{
+  "members": [
+    {
+      "id": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "name": "Anand",
+      "username": "anand",
+      "passwordHash": "$2b$10$8OaS1kDPeGGhdnIp.8GBvuVJtHnsPL8ginlViqlkp3eV2coHW9y82",
+      "role": "member",
+      "email": "",
+      "profilePhoto": "",
+      "status": "active",
+      "isActive": true,
+      "joinDate": "2026-06-29",
+      "lastLoginAt": "2026-06-29T14:05:05.140Z",
+      "notificationPreferences": {
+        "email": false,
+        "push": true,
+        "weeklyDigest": true
+      }
+    },
+    {
+      "id": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "name": "Room Admin",
+      "username": "admin",
+      "passwordHash": "$2b$10$f7tLlgHhz8kS6qcZ5ekTru2JxzEaXgHZVB6bFqvfccHXRkwLfKbLe",
+      "role": "admin",
+      "email": "admin@roomos.app",
+      "profilePhoto": null,
+      "status": "active",
+      "isActive": true,
+      "joinDate": "2026-06-29",
+      "lastLoginAt": "2026-06-29T14:04:53.429Z",
+      "notificationPreferences": {
+        "email": false,
+        "push": true,
+        "weeklyDigest": true
+      }
+    }
+  ],
+  "expenses": [],
+  "settlements": [
+    {
+      "id": "36445121-a29a-47e4-b2e0-90c85f864cbf",
+      "fromMemberId": "1b8ac17b-c472-447d-938b-3e59bddc49c8",
+      "toMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "amount": 250,
+      "status": "completed",
+      "createdAt": "2026-06-29T13:30:46.161Z",
+      "updatedAt": "2026-06-29T13:30:46.161Z",
+      "settlementDate": "2026-06-26",
+      "notes": "Cleared last week's dinner balance.",
+      "createdByMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "completedByMemberId": "1b8ac17b-c472-447d-938b-3e59bddc49c8"
+    },
+    {
+      "id": "dbdaa004-c2d9-4b86-912a-85c1cd370456",
+      "fromMemberId": "b8447a9b-8b69-47d1-a371-04eb275f18b2",
+      "toMemberId": "810df6db-8a93-45c2-b1c8-2ac89fa12849",
+      "amount": 140,
+      "status": "pending",
+      "createdAt": "2026-06-29T13:30:46.161Z",
+      "updatedAt": "2026-06-29T13:30:46.161Z",
+      "settlementDate": "",
+      "notes": "Pending vegetable split.",
+      "createdByMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "completedByMemberId": null
+    }
+  ],
+  "categories": [
+    "Breakfast",
+    "Chicken",
+    "Coffee",
+    "Curd",
+    "Curries",
+    "Custom",
+    "Dal",
+    "Egg Curry",
+    "Fruits",
+    "Groceries",
+    "Milk",
+    "Oil",
+    "Rice",
+    "Sambar",
+    "Snacks",
+    "Sugar",
+    "Tea",
+    "Vegetables"
+  ],
+  "monthlyLocks": [],
+  "activityLogs": [
+    {
+      "id": "9d733b71-aa10-409e-88df-79f17493db16",
+      "actorMemberId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "939b100e-3676-48da-94dc-30323c7ce732",
+      "description": "Anand deleted an expense from 2026-06-29.",
+      "createdAt": "2026-06-29T14:06:34.628Z"
+    },
+    {
+      "id": "0d1da531-0efd-4921-8a19-85cdf4aa2a85",
+      "actorMemberId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "action": "expense.created",
+      "entityType": "expense",
+      "entityId": "new",
+      "description": "Anand added a morning expense.",
+      "createdAt": "2026-06-29T14:06:05.332Z"
+    },
+    {
+      "id": "425d3002-1fce-4b10-ba8a-956bd38d35ad",
+      "actorMemberId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "description": "Anand signed in.",
+      "createdAt": "2026-06-29T14:05:05.140Z"
+    },
+    {
+      "id": "a5c7ffa7-a8b0-4d40-913a-20ca584205ae",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.status.changed",
+      "entityType": "member",
+      "entityId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "description": "Room Admin enabled Anand.",
+      "createdAt": "2026-06-29T14:05:01.542Z"
+    },
+    {
+      "id": "7583dd56-b4e2-45b4-bf49-cafbb99e9241",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "description": "Room Admin signed in.",
+      "createdAt": "2026-06-29T14:04:53.429Z"
+    },
+    {
+      "id": "6efdd1e3-80e5-44cb-b4f7-3d8845e5aa11",
+      "actorMemberId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "action": "member.requested",
+      "entityType": "member",
+      "entityId": "65c2be6c-8b97-47c5-ab0f-467c191a50e5",
+      "description": "Anand requested member access.",
+      "createdAt": "2026-06-29T14:04:44.224Z"
+    },
+    {
+      "id": "bf34191e-0f16-4a32-be24-6a1c1f5479e4",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "auth.logout",
+      "entityType": "auth",
+      "entityId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "description": "Room Admin signed out.",
+      "createdAt": "2026-06-29T14:04:20.230Z"
+    },
+    {
+      "id": "56d69ee5-01ed-442c-bbf5-e4901612348f",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.deleted",
+      "entityType": "member",
+      "entityId": "b8447a9b-8b69-47d1-a371-04eb275f18b2",
+      "description": "Room Admin deleted Mahendra's account entirely.",
+      "createdAt": "2026-06-29T14:03:31.584Z"
+    },
+    {
+      "id": "d6ae9118-7a83-402e-bc1c-75d657ad8848",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.deleted",
+      "entityType": "member",
+      "entityId": "810df6db-8a93-45c2-b1c8-2ac89fa12849",
+      "description": "Room Admin deleted Varshith's account entirely.",
+      "createdAt": "2026-06-29T14:03:27.867Z"
+    },
+    {
+      "id": "8d7ea051-75dd-4929-b363-a7c1ad459819",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.deleted",
+      "entityType": "member",
+      "entityId": "1b8ac17b-c472-447d-938b-3e59bddc49c8",
+      "description": "Room Admin deleted Anand's account entirely.",
+      "createdAt": "2026-06-29T14:03:24.047Z"
+    },
+    {
+      "id": "a7a5bb20-4f00-4306-b30d-31de7482da86",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.deleted",
+      "entityType": "member",
+      "entityId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "description": "Room Admin deleted Yuvaraj's account entirely.",
+      "createdAt": "2026-06-29T14:03:20.090Z"
+    },
+    {
+      "id": "c68bc846-99bb-4f04-bd96-7999f28bce95",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.deleted",
+      "entityType": "member",
+      "entityId": "bab810d0-e1b4-4712-97ba-813b4ec744cb",
+      "description": "Room Admin deleted Anand's account entirely.",
+      "createdAt": "2026-06-29T14:03:13.030Z"
+    },
+    {
+      "id": "076f0d09-de25-4fe4-96a3-d6facddf7150",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "settings.updated",
+      "entityType": "system",
+      "entityId": "settings",
+      "description": "Room Admin updated room settings.",
+      "createdAt": "2026-06-29T14:03:02.814Z"
+    },
+    {
+      "id": "f3379466-455b-4bbd-97ec-4ea1945ecd18",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "settings.updated",
+      "entityType": "system",
+      "entityId": "settings",
+      "description": "Room Admin updated room settings.",
+      "createdAt": "2026-06-29T14:02:08.845Z"
+    },
+    {
+      "id": "01cad725-2ecf-4bd8-81a7-8c64c46a4219",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.status.changed",
+      "entityType": "member",
+      "entityId": "bab810d0-e1b4-4712-97ba-813b4ec744cb",
+      "description": "Room Admin disabled Anand.",
+      "createdAt": "2026-06-29T14:00:17.449Z"
+    },
+    {
+      "id": "c725c55c-82de-4b72-aa69-ea606a50064e",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "member.approved",
+      "entityType": "member",
+      "entityId": "bab810d0-e1b4-4712-97ba-813b4ec744cb",
+      "description": "Room Admin approved Anand's access request.",
+      "createdAt": "2026-06-29T14:00:06.011Z"
+    },
+    {
+      "id": "5e1efa8b-3efa-480f-aa91-7829d555eff6",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "description": "Room Admin signed in.",
+      "createdAt": "2026-06-29T13:59:50.785Z"
+    },
+    {
+      "id": "81f3a5bb-90fd-48dd-a8f4-0f9ff8d22217",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "auth.logout",
+      "entityType": "auth",
+      "entityId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "description": "Room Admin signed out.",
+      "createdAt": "2026-06-29T13:53:42.836Z"
+    },
+    {
+      "id": "612c8481-1814-42c6-9688-31c22a331b9a",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "fda2bd38-28cf-40f4-9711-497e6c268644",
+      "description": "Room Admin deleted an expense from 2026-06-19.",
+      "createdAt": "2026-06-29T13:51:30.298Z"
+    },
+    {
+      "id": "61c2f1e6-f613-4636-bbde-7cffa25219f3",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "8649bdaf-f44a-4ec8-934f-eb27b8cca245",
+      "description": "Room Admin deleted an expense from 2026-06-22.",
+      "createdAt": "2026-06-29T13:51:25.494Z"
+    },
+    {
+      "id": "6bc78314-0c17-4af3-bd26-e33b2f692269",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "27076537-9d75-4961-9cf9-475b5b5f583f",
+      "description": "Room Admin deleted an expense from 2026-06-25.",
+      "createdAt": "2026-06-29T13:51:22.030Z"
+    },
+    {
+      "id": "e0714151-b43f-419b-afd2-738ff5d3a830",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "9331699d-aab2-4257-a860-4e8696e98fed",
+      "description": "Room Admin deleted an expense from 2026-06-27.",
+      "createdAt": "2026-06-29T13:51:16.251Z"
+    },
+    {
+      "id": "248e5443-0439-498e-97a6-484e4335175d",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "61176ed2-0e39-4b1f-8af2-23a9913b82b1",
+      "description": "Room Admin deleted an expense from 2026-06-28.",
+      "createdAt": "2026-06-29T13:51:12.206Z"
+    },
+    {
+      "id": "63d73322-fa2e-4e5b-9e68-3a1e2e0d9864",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "expense.deleted",
+      "entityType": "expense",
+      "entityId": "810f93cd-8be1-4ba4-9b30-578dc2140b89",
+      "description": "Room Admin deleted an expense from 2026-06-29.",
+      "createdAt": "2026-06-29T13:51:07.485Z"
+    },
+    {
+      "id": "9b76df1c-a916-4d01-9c74-95e829bddba2",
+      "actorMemberId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "35f62756-2cdf-4baf-a0bd-4afc6d36cbb5",
+      "description": "Room Admin signed in.",
+      "createdAt": "2026-06-29T13:50:29.960Z"
+    },
+    {
+      "id": "2c2cf9af-d87f-4b00-a3f8-eaa4070105cc",
+      "actorMemberId": "bab810d0-e1b4-4712-97ba-813b4ec744cb",
+      "action": "member.requested",
+      "entityType": "member",
+      "entityId": "bab810d0-e1b4-4712-97ba-813b4ec744cb",
+      "description": "Anand requested member access.",
+      "createdAt": "2026-06-29T13:50:06.992Z"
+    },
+    {
+      "id": "551a6f3c-2b5e-4abf-af85-7c0bbc9821c8",
+      "actorMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "action": "auth.logout",
+      "entityType": "auth",
+      "entityId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "description": "Yuvaraj signed out.",
+      "createdAt": "2026-06-29T13:49:00.363Z"
+    },
+    {
+      "id": "9212364c-15cb-47fd-b97c-d7c4d48640dd",
+      "actorMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "description": "Yuvaraj signed in.",
+      "createdAt": "2026-06-29T13:35:00.146Z"
+    },
+    {
+      "id": "ef3cb441-c57a-4903-9779-d261fbcb6c85",
+      "actorMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "action": "auth.logout",
+      "entityType": "auth",
+      "entityId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "description": "Yuvaraj signed out.",
+      "createdAt": "2026-06-29T13:32:45.274Z"
+    },
+    {
+      "id": "90b3b970-0fef-4854-a61b-34f7192c2f8f",
+      "actorMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "action": "auth.login",
+      "entityType": "auth",
+      "entityId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "description": "Yuvaraj signed in.",
+      "createdAt": "2026-06-29T13:30:46.270Z"
+    },
+    {
+      "id": "74d18e3d-db90-49da-83d2-1e6298beb002",
+      "actorMemberId": "1f066c4f-4ddd-4a67-8c09-93650bc80bde",
+      "action": "seed.bootstrap",
+      "entityType": "system",
+      "entityId": "bootstrap",
+      "description": "Initial workspace data seeded for RoomOS.",
+      "createdAt": "2026-06-29T13:30:46.161Z"
+    }
+  ],
+  "settings": {
+    "houseName": "Power_Puff_Boys",
+    "currency": "INR",
+    "defaultTheme": "light"
+  }
+}
